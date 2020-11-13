@@ -1,3 +1,5 @@
+//getline() - wczytuje i odrzuca znak nowego wiersza, mozna wpisywac kilka slow do łańcucha
+
 #include <iostream>
 int main()
 {
@@ -10,5 +12,28 @@ int main()
     cin.getline(name, ArSize);
     cout<<"Podaj swoj ulub. deser:\n";
     cin.getline(dessert, ArSize);
+    cout<<"Twoj ulubiony deser "<<name<<" to "<<dessert;
+}
+
+
+
+
+
+//get() - zostawia znak nowego wiersza w kolejce wejściowej
+//wczytanie bezparametrowe funkcji get() wczytuje znak nowego wiersza i mozliwe jest dalsze uzycie funkcji get()
+
+
+#include <iostream>
+int main()
+{
+    using namespace std;
+    const int ArSize = 20;
+    char name[ArSize];
+    char dessert[ArSize];
+
+    cout<<"Podaj imie: \n";
+    cin.get(name, ArSize).get();
+    cout<<"Podaj swoj ulub. deser:\n";
+    cin.get(dessert, ArSize).get();
     cout<<"Twoj ulubiony deser "<<name<<" to "<<dessert;
 }
