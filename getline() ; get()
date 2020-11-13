@@ -1,0 +1,14 @@
+#include <iostream>
+int main()
+{
+    using namespace std;
+    const int ArSize = 20;
+    char name[ArSize];
+    char dessert[ArSize];
+
+    cout<<"Podaj imie: \n";
+    cin.getline(name, ArSize);
+    cout<<"Podaj swoj ulub. deser:\n";
+    cin.getline(dessert, ArSize);
+    cout<<"Twoj ulubiony deser "<<name<<" to "<<dessert;
+}
