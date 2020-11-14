@@ -1,0 +1,64 @@
+#include <iostream>
+
+struct inflatable //deklaracja struktury
+{
+    char name[20];
+    float volume;
+    double price;
+};
+
+int main()
+{
+    using namespace std;
+    inflatable guest =
+    {
+        "Glorious Gloria", //wartosc pola name
+        1.88,
+        29.99
+    };
+
+    inflatable pal =
+    {
+        "Audacious Arthur",
+        3.12,
+        1.99
+    };
+
+cout<<"Zaproszono: " << pal.name << " oraz " << guest.name;
+}
+
+
+//w c++ można ominąć znak = przy inicjalizacji struktury
+inflatable duck {"Daphne", 0.12, 9.98};
+
+
+//użycie pola typu string w strukturze
+
+#include <iostream>
+#include <string>
+struct inflatable //deklaracja struktury
+{
+    std::string name;
+    float volume;
+    double price;
+};
+
+int main()
+{
+    using namespace std;
+    inflatable guest =
+    {
+        "glorious", //wartosc pola name
+        1.88,
+        29.99
+    };
+
+    inflatable pal =
+    {
+        "arthur",
+        3.12,
+        1.99
+    };
+
+cout<<"Zaproszono: " << pal.name << " oraz " << guest.name;
+}
