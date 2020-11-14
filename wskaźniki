@@ -42,3 +42,30 @@ int main()
    cout<<"higgens: "<<higgens<<" *p_higgens: "<<*p_higgens<<endl;
    cout<<"&higgens: "<<&higgens<<" p_higgens: "<<p_higgens;
 }
+
+
+=================================================================================================================================================================
+
+//rzutowanie jawne na odpowiedni typ
+
+int* pt;
+pt = (int*) 0xB8000000; //zgodnosc typow
+
+
+=================================================================================================================================================================
+
+//użycie operatora new do alokowania pamięci
+#include <iostream>
+
+int main()
+{
+   using namespace std;
+   int nights = 1001;
+   int *pt = new int; //alokacja pamięci na wartość int
+   *pt = nights; //zapis wartosci do utworzonego wskaznika
+
+
+
+   cout<<"Wartosc nights: "<<*pt<<" oraz jej adres: "<<pt;
+
+}
