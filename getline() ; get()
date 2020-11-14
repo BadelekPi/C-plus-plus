@@ -16,12 +16,13 @@ int main()
 }
 
 
-
+===================================================================================================================================================================
 
 
 //get() - zostawia znak nowego wiersza w kolejce wejściowej
-//wczytanie bezparametrowe funkcji get() wczytuje znak nowego wiersza i mozliwe jest dalsze uzycie funkcji get()
 
+===================================================================================================================================================================
+//wczytanie bezparametrowe funkcji get() wczytuje znak nowego wiersza i mozliwe jest dalsze uzycie funkcji get()
 
 #include <iostream>
 int main()
