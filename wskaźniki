@@ -29,3 +29,16 @@ int main()
 }
 
 =================================================================================================================================================================
+
+//inicjalizowanie wskaźników adresem
+
+#include <iostream>
+
+int main()
+{
+   using namespace std;
+   int higgens = 5;
+   int* p_higgens = &higgens;
+   cout<<"higgens: "<<higgens<<" *p_higgens: "<<*p_higgens<<endl;
+   cout<<"&higgens: "<<&higgens<<" p_higgens: "<<p_higgens;
+}
