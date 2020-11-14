@@ -1,0 +1,31 @@
+//sposób użycia wskaźników
+#include <iostream>
+
+int main()
+{
+   using namespace std;
+   int updates = 6; //deklaracja zmiennej
+   int *p_updates; //deklaracja wskaźnika na int
+
+   p_updates = &updates; //przypisanie wskaznikowi adresu int
+
+   //pokazanie wartosci na dwa sposoby
+   cout<<"Wartości: updates = " <<updates;
+   cout<<", *updates = " << *p_updates <<endl;
+
+   //pokazanie adresu na dwa sposoby
+   cout<<"Adresy: &updates = " <<&updates;
+   cout<<", p_updates: " << p_updates<<endl;
+
+   //uzycie wskaznika do zmiany wartosci
+   *p_updates = *p_updates + 1;
+   cout<<"Zmieniona wartosci o 1: " <<*p_updates<<endl;
+
+   //wyrażenia równoważne
+   int jumbo = 23;
+   int *pe = &jumbo;
+   cout<<jumbo<<" = "<<*pe;
+   return 0;
+}
+
+=================================================================================================================================================================
