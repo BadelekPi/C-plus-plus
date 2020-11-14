@@ -64,3 +64,31 @@ int main()
 
 cout<<"Zaproszono: " << pal.name << " oraz " << guest.name;
 }
+
+=====================================================================================================================================================================
+
+//tablice struktur
+
+#include <iostream>
+
+struct inflatable
+{
+    char name[20];
+    float volume;
+    double price;
+};
+
+
+
+
+int main()
+{
+    using namespace std;
+    inflatable guests[2]= //inicjalizacja tablicy struktur
+    {
+        {"Bambi",0.5,21.99}, //pierwsza struktura z tablicy
+        {"Godzilla",2000,565.99} //druga struktura z tablicy
+    };
+
+    cout<<"Przyklad wywolania "<<guests[0].name;
+}
