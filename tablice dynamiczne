@@ -10,7 +10,8 @@ int main()
   p3[1] = 0.5;
   p3[2] = 0.8;
   cout << "p3[1] to " << p3[1] << ".\n";
-  p3 = p3+1;
+  p3 = p3+1; //dodanie do liczby calkowitej jedynki zwieksza wartosc tej liczby o jeden, ale dodanie jedynki do wskaznika zwieksza wskazywany adres o liczbe bajtow
+             //odpowiadajacyh danemu typowi
   cout<< "Teraz p3[0] to "<<p3[0]<< ".\n";
   p3 = p3-1; //powrot do prawidlowego adresu zmiennych tablicy
 }
