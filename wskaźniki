@@ -69,3 +69,19 @@ int main()
    cout<<"Wartosc nights: "<<*pt<<" oraz jej adres: "<<pt;
 
 }
+
+=================================================================================================================================================================
+
+//użycie operatora delete do zwalniania blokow pamieci pamięci
+#include <iostream>
+
+int main()
+{
+   using namespace std;
+   int nights = 1001;
+   int *pt = &nights; //alokacja pamięci na wartość int
+
+   int *pq = pt;
+   cout<<*pt<<" "<<*pq;
+   delete pq; //zwalnianie bloku pamieci zaalokowanej przez wskaznik pt za pomoca drugiego wskaznika
+}
