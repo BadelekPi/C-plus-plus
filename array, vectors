@@ -1,0 +1,14 @@
+//uzycie operatora delete do zwalniania niepotrzebnej juz pamieci,
+#include <iostream>
+#include <vector>
+#include <array>
+using namespace std;
+
+
+int main()
+{
+    double a1[4] = {1.2, 2.4, 3.6, 4.2};
+    vector<double> a2(4); //utworzenie wektora z czterema elementami
+    array<double,4> a3 = {3.14, 2.72, 1.62, 1.41};
+    cout << a3[2] << endl;
+}
