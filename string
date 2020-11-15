@@ -1,0 +1,19 @@
+//petla porownujaca dwa łancuchy obiektu string
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+   string word = "?ate";
+
+   for (char ch='a'; word != "mate"; ch++)
+   {
+       cout<<word<<endl;
+       word[0] = ch;
+   }
+   cout << "Petla sie skonczyla, slowo to: " << word << endl;
+   return 0;
+}
+
+============================================================================================================================================================================
