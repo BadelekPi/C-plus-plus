@@ -85,3 +85,28 @@ int main()
    cout<<*pt<<" "<<*pq;
    delete pq; //zwalnianie bloku pamieci zaalokowanej przez wskaznik pt za pomoca drugiego wskaznika
 }
+
+=================================================================================================================================================================
+
+//uzycie new do tworzenia nienazwanej struktury, wykorzystanie obu notacji wskaznikowych do siegania do pól struktury
+#include <iostream>
+struct inflatable //definicja struktury
+{
+   char name[20];
+   float volume;
+   double price;
+};
+
+int main()
+{
+    using namespace std;
+    inflatable * ps = new inflatable; //alokacja pamięci na strukturę
+    cout<<"Podaj nazwę: ";
+    cin.get(ps->name,20); //metoda 1. dostępu do pól
+    cout<<"Podaj objetosc: ";
+    cin >> (*ps).volume; //metoda 2. dostępu do pól
+    cout << "Podaj cenę: ";
+    cin >> ps->price;
+    cout << "Nazwa: " << (*ps).name << endl; //metoda 2.
+    cout << "Cena: " << ps->price << endl;
+}
