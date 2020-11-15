@@ -62,3 +62,27 @@ int main()
    }
 }
 }
+
+========================================================================================================================================================================
+
+//petla for odwracajaca kolejnosc liter w slowie
+#include <iostream>
+#include <string>
+using namespace std;
+int main()
+{
+   cout<<"Podaj slowo: ";
+   string word;
+   cin >> word;
+
+   //fizycznie modyfikowany obiekt string
+   char temp;
+   int i,j;
+   for (j=0,i=word.size()-1;j<i;i--,j++)
+   {
+       temp = word[i];
+       word[i] = word[j];
+       word[j] = temp;
+   } //koniec bloku
+   cout<<word;
+}
