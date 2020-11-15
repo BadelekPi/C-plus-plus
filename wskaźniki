@@ -110,3 +110,34 @@ int main()
     cout << "Nazwa: " << (*ps).name << endl; //metoda 2.
     cout << "Cena: " << ps->price << endl;
 }
+
+=================================================================================================================================================================
+
+//uzycie operatora delete do zwalniania niepotrzebnej juz pamieci,
+#include <iostream>
+#include <cstring>
+using namespace std;
+char * getname(void); //prototyp funkcji
+
+int main()
+{
+  char * name; //utworzenia wskaznika bez przypisanej pamieci
+  name = getname(); //przypisanie zmiennej name adresu łancucha
+  cout << name << " pod adresem " << (int *) name << "\n";
+  delete [] name; //zwolnienie pamieci
+
+  name = getname(); //ponowne uzycie zwolnionej pamieci
+  cout << name << "pod adresem" << (int *) name << "\n";
+  delete [] name; //ponowne zwolnienie pamieci
+  return 0;
+}
+
+char * getname() //zwraca wskaznik na nowy łancuch
+{
+    char temp[80]; //tymczasowy bufor
+    cout << "Podaj nazwisko: ";
+    cin >> temp;
+    char * pn = new char[strlen(temp) + 1];
+    strcpy(pn, temp); //kopiowanie lancucha do krotszej tablicy
+    return pn; //po zakonczeniu funkcji temp zostanie utracone
+}
