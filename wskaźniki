@@ -141,3 +141,9 @@ char * getname() //zwraca wskaznik na nowy łancuch
     strcpy(pn, temp); //kopiowanie lancucha do krotszej tablicy
     return pn; //po zakonczeniu funkcji temp zostanie utracone
 }
+
+=================================================================================================================================================================
+
+double x = *++pt; //inkrementacja wskaznika, potem wyłuskanie
+
+x = *pt++; //wyłuskanie pierwotnego wskaźnika, potem inkrementacja tego wskaźnika
