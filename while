@@ -1,0 +1,19 @@
+//petla while wypisujaca litery jako znaki ASCII
+#include <iostream>
+
+using namespace std;
+const int ArSize = 20;
+int main()
+{
+   cout<<"Podaj swoje imie: "<<endl;
+   char name[ArSize];
+   cin >> name;
+   int i = 0;
+   while(name[i] != '\0') //jezeli i jest rozne od znaku konca lancucha
+   {
+       cout << name[i] << ": " << int(name[i]) << endl;
+       i++;
+   }
+}
+
+============================================================================================================================================================================
