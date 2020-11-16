@@ -1,0 +1,29 @@
+//uzycie biblioteki cctype do sprawdzenia jakie to sa znaki
+#include <iostream>
+#include <cctype>
+using namespace std;
+
+int main()
+{
+  char ch;
+  int whitespace = 0;
+  int digits = 0;
+  int chars = 0;
+  int punct = 0;
+  int others = 0;
+  cin.get(ch); //pobierz pierwszy znak
+  while(ch != '@') //sprawdz czy to nie @
+  {
+      if(isalpha(ch)) //czy to litera?
+        chars++;
+      else if(isspace(ch)) //czy to bialy znak?
+        whitespace++;
+      else if(isdigit(ch)) //czy to cyfra?
+        digits++;
+      else if(ispunct(ch)) //czy to znak przestankowy?
+        punct++;
+      else
+        others++;
+      cin.get(ch); //pobierz nastepny znak
+  }
+}
