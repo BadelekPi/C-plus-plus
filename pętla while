@@ -81,3 +81,31 @@ int main()
 }
 
 ============================================================================================================================================================================
+
+//przerwanie petli przy wcisnieciu klawisza 'q'
+#include <iostream>
+using namespace std;
+
+const int Max = 5;
+
+
+
+int main()
+{
+ double fish[Max];
+ cout << "Ryba 1.: ";
+ int i = 0;
+ while (i < Max && cin >> fish[i])
+ {
+     if (++i < Max)
+        cout << "Ryba: " << i+1 << ".:";
+ }
+ double total = 0.0;
+ for (int j = 0; j < i; j++)
+    total += fish[j];
+ //wyniki
+ if ( i == 0)
+    cout << "Nie ma zadnych ryb \n";
+ else
+    cout << total / i << " = srednia waga " << i << " ryb \n";
+}
