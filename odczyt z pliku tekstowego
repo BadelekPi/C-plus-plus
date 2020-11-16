@@ -1,0 +1,42 @@
+//zodczyt z pliku tekstowego
+#include <iostream>
+#include <fstream> // pierwszy krok //plikowe wejscie-wyjscie
+#include <cstdlib> //funkcja exit()
+using namespace std;
+const int SIZE = 60;
+int main()
+{
+  char filename[SIZE];
+  ifstream inFile //obiekt obslugujacy odczyt z pliku
+  cout << "Podaj nazwe pliku z danymi";
+  cin.getline(filename, SIZE);
+  inFile.open(filename); //polaczenie inFile z plikiem
+  if (!inFile.is_open()) //nieudana proba otwarcia pliku
+  {
+      cout << "Otwarcie pliku " << filename << " nie powiodlo sie. \n";
+      exit(EXIT_FAILURE);
+  }
+  double value;
+  double sum = 0.0;
+  int count = 0; //liczba elementow do odczytu
+  
+  inFile >> value; //pobierz pierwsza wartosc
+  while (inFile.good()) //pliki dobre dane i nie EOF
+  {
+      ++count; //wczytaj kolejna dana
+      sum += value; //obliczanie biezacej sumy
+      inFile >> value; //pobranie nastepnej wartosci
+  }
+  if (inFile.eor())
+    cout << "Koniec plikow. \n";
+  else if (inFile.fail())
+    cout << "Wczytanie danych przerwane - blad \n";
+  else
+  {
+      cout << "Wczytanych elementow" << count << endl;
+      cout << "Suma: " << sum << endl;
+      cout << "Srednia: " << sum / count << endl;
+  }
+  inFile.close(); //plik juz nieuzywany
+  return 0;
+}
