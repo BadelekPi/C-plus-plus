@@ -59,3 +59,25 @@ int main()
 }
 
 ============================================================================================================================================================================
+
+//petla while, zliczajaca wprowadzone znaki wraz ze spacjami i tabulatorami
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+  char ch;
+  int count = 0;
+  cin.get(ch);
+  while (ch != '#')
+  {
+      count<<ch;
+      ++count;
+      cin.get(ch);
+  }
+  cout << endl << "wczytano " << count << " znakow \n";
+  return 0;
+}
+
+============================================================================================================================================================================
