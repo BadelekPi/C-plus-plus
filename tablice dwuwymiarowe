@@ -1,0 +1,42 @@
+========================================================================================================================================================================
+
+//uzycie tablic dwuwymiarowych
+#include <iostream>
+
+using namespace std;
+const int Cities = 5;
+const int Years = 4;
+int main()
+{
+    const char * cities[Cities] =
+    {
+        "Jelenia Góra",
+        "Zielona Góra",
+        "Stara Góra",
+        "Górki",
+        "Wilgna Górna"
+    };
+
+    int maxtemps[Years][Cities] = //tablica dwuwymiarowa
+    {
+        {32, 31, 32, 34, 29},
+        {28, 31, 31, 32, 30},
+        {26, 34, 23, 32, 12},
+        {28, 29, 31, 32, 30}
+    };
+
+    for(int city=0; city< Cities; ++city)
+    {
+        cout<<cities[city] << ":\t";
+        for (int year = 0; year < Years; ++year)
+            cout<< maxtemps[year][city] << "\t";
+        cout<<endl;
+    }
+
+}
+
+//mozna zastosowac tez:
+//char cities[Cities][25] - tablica 5 tablic po 25 znakow
+//tablica wskaznikow przechowuje jednak 5 literalow lancuchowych, ekonomicznej wykorzystuje pamiec
+//mozna tez uzyc string
+//const string cities[Cities] = //tablica na 5 obiektow string
