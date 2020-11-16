@@ -38,3 +38,32 @@ int main()
 
 
 ===================================================================================================================================================================
+
+//uzycie instrukcji warunkowych if do sprawdzenia poprawnosci danej z zakresu zmiennej typu int
+#include <iostream>
+#include <climits>
+using namespace std;
+bool is_int(double);
+int main()
+{
+   double num;
+   cin >> num;
+   while (!is_int(num))
+   {
+       cout << "Poza zakresem - probuj dalej";
+       cin >> num;
+   }
+   int val = int(num); //rzutowanie typu
+   cout << "Podana liczba calkowita to: " << val << "\nBywaj\n";
+   return 0;
+}
+
+bool is_int(double x)
+{
+    if (x <= INT_MAX && x >= INT_MIN) //pobrane z climits
+        return true;
+    else
+        return false;
+}
+
+===================================================================================================================================================================
