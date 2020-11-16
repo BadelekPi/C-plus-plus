@@ -1,0 +1,17 @@
+//petla do while, sprawdzająca wprowadzana liczbe
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+ int n;
+ cout<<"Podaj szczesliwa liczbe: "<<endl;
+ do
+ {
+     cin >> n; //wykonaj tresc
+ } while ( n != 7); //jezeli n nie rowna sie 7 wprowadz ponownie
+ cout << "Tak, szczesliwa liczba to: " << n;
+}
+
+===========================================================================================================================================================================
