@@ -1,0 +1,37 @@
+//uzycie instrukcji warunkowych if do wczytania zmiennej tymczasowej temp oraz do przydzielenia zmiennej do talbicy po sprawdzeniu jej poprawnosci
+#include <iostream>
+
+using namespace std;
+const int ArSize = 6;
+int main()
+{
+   float naaq[ArSize];
+   int i= 0 ;
+   float temp;
+   cout << "Wartosc pierwsza: ";
+   cin >> temp;
+   while (i < ArSize && temp >= 0) //2 warunki przerwania
+   {
+       naaq[i] = temp;
+       ++i;
+       if (i < ArSize) //w tablicy jest jeszcze miejsce
+       {
+           cout << "Nastepna wartosc: ";
+           cin >> temp; //wiec pobieramy nastepna wartosc
+       }
+   }
+   if (i == 0)
+    cout << "Brak danych - pa pa. \n";
+   else
+   {
+       cout << "Podaj swo WPNW: ";
+       float you;
+       cin >> you;
+       int count = 0;
+       for (int j = 0; j < i; j++)
+        if (naaq[j] > you)
+            ++count;
+       cout << count;
+       cout << "twoi sasiedzi sa bardziej podatni na wplywy niz ty \n";
+   }
+}
