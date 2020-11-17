@@ -63,3 +63,34 @@ void n_chars(char c, int n) //pokazuje c, n razy
         cout << c ;
     cout << "\n";
 }
+
+==============================================================================================================================================================================
+
+//prawdopodobienstwo wygranej
+#include <iostream>
+using namespace std;
+
+long double probability(unsigned numbers, unsigned picks);
+
+int main()
+{
+ double total, choices;
+ cout << "Podaj najwieksza liczbe jaka mozna wybrac oraz liczbe skreslen: ";
+ while ((cin >> total >> choices) && choices <= total)
+ {
+     cout << probability(total, choices); //wyliczanie wyniku
+     cout << "Nastepne dwie liczby albo wcisnik q aby zakonczyc: ";
+ }
+ return 0;
+}
+
+long double probability(unsigned numbers, unsigned picks)
+{
+    long double result = 1.0; //kilka zmiennych lokalnych
+    long double n;
+    unsigned p;
+
+    for (n = numbers, p = picks; p>0; n--, p--)
+        result = result * n / p;
+    return result;
+}
