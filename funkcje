@@ -32,3 +32,34 @@ double cube(double x)
 }
 
 ==============================================================================================================================================================================
+
+//funkcja dwuparametrowa
+#include <iostream>
+using namespace std;
+
+void n_chars(char, int);
+
+int main()
+{
+  int times;
+  char ch;
+  cout << "Podaj znak ";
+  cin >> ch;
+  while (ch != 'q') //q, aby zakonczyc
+  {
+      cout << "Podaj liczbe calkowita: ";
+      cin >> times;
+      n_chars(ch, times); //funkcja dwuargumentowa
+      cout << "Podaj nastepny znak, litera q konczy: \n";
+      cin >> ch;
+  }
+  cout << "Wartosc zmiennej times to " << times << endl;
+
+}
+
+void n_chars(char c, int n) //pokazuje c, n razy
+{
+    while (n-- > 0) //kontynuacja, aż n dojdzie do 0
+        cout << c ;
+    cout << "\n";
+}
