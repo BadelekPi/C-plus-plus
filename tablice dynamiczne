@@ -125,3 +125,36 @@ void revalue(double r, double ar[], int n)
 }
 
 =================================================================================================================================================================
+
+
+//obliczanie sumy elementow tablicy za pomoca dwoch wskaznikowych definiujacych zakres tablicy
+#include <iostream>
+using namespace std;
+
+const int ArSize = 8;
+int sum_arr(const int *begin, const int *end);
+int main()
+{
+    int cookies[ArSize] = {1,2,4,8,16,32,64,128};
+
+    int sum = sum_arr(cookies, cookies + ArSize);
+    cout << "Zjedzonych ciasteczek " << sum << endl;
+    sum = sum_arr(cookies, cookies + 3); //pierwsze trzy elementy
+    cout << "Pierwsze trzy osoby zjadly " << sum << " ciastek. \n";
+    sum = sum_arr(cookies+ 4, cookies + 8); //ostatnie 4 elementy
+    cout << "Ostatnich czworo zjadlo " << sum << " ciastek. \n";
+    return 0;
+}
+
+//zwraca sume tablic liczb calkowitych
+int sum_arr(const int *begin, const int *end)
+{
+    const int * pt;
+    int total = 0;
+
+    for (pt = begin; pt != end; pt++)
+        total = total + *pt;
+    return total;
+}
+
+=================================================================================================================================================================
