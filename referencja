@@ -2,6 +2,9 @@
 #include <iostream>
 //referencja - odnoszenie sie za pomoca innej zmiennej do tej samej
 //przypisanej komorki w pamieci
+
+//referencji nie mozna zmieniac na inna zmienna
+//w chwili tworzenia referencji trzeba ja od razu zainicjalizowac
 int main()
 {
     using namespace std;
