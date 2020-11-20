@@ -1,0 +1,21 @@
+//uzycie, definiowanie referencji
+#include <iostream>
+//referencja - odnoszenie sie za pomoca innej zmiennej do tej samej
+//przypisanej komorki w pamieci
+int main()
+{
+    using namespace std;
+    int rats = 101;
+    int & rodents = rats; //rodents to referencja
+    cout << "rats = " << rats;
+    cout <<", rodents = " << rodents << endl;
+    rodents++;
+    cout << "rats= " <<rats;
+    cout << ", rodents = " << rodents << endl;
+    //pokazuje sie to samo
+    cout << "adres rats = " << &rats;
+    cout << ", adres rodents= " <<&rodents <<endl;
+    return 0;
+}
+
+===============================================================================================================================================================================
