@@ -22,3 +22,44 @@ int main()
 }
 
 ===============================================================================================================================================================================
+
+//zamiana wartosci za pomoca referencji i wskaznikow
+#include <iostream>
+void swapv(int a, int b);
+using namespace std;
+
+void swapr(int & a, int & b)
+{
+   int temp;
+   temp = a;
+   a = b;
+   b = temp;
+}
+
+void swapp(int * p, int * q)
+{
+    int temp;
+    temp = *p;
+    *p = *q;
+    * q = temp;
+}
+
+
+int main()
+{
+
+  int wallet1 = 300;
+  int wallet2 = 350;
+
+  cout << "Zamiana wartosci za pomoca referencji \n";
+  swapr(wallet1,wallet2); //przekazywanie zmiennych
+  cout << "wallet1 = " << wallet1 <<endl;
+  cout << "wallet2 = " << wallet2 << endl;
+
+  cout << "Zamiana wartosci za pomoca wskaznikow \n";
+  swapp(&wallet1,&wallet2); //przekazywanie zmiennych
+  cout << "wallet1 = " << wallet1 <<endl;
+  cout << "wallet2 = " << wallet2;
+
+  return 0;
+}
