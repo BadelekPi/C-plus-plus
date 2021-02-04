@@ -1,0 +1,77 @@
+#include <iostream>
+#include <conio.h>
+#include <math.h>
+using namespace std;
+/*
+Programowanie systemów mechatronicznych
+Autor: Badełek Piotr
+Grupa: WMT18AP1S1
+Temat: Opracowanie programu realizującego modelowanie członów dynamicznych w
+srodowisku C++ Builder6 (LAB1)
+Prowadzący: dr inż. Włodzimierz Borowczyk
+Program: Rozwiazanie ukladu rownan rozniczkowych opisujacych wzmacniacz rezonansowy
+Kompilator: GNU gcc version 4.0.2
+Sprawdzono na Windows 10
+*/
+const float pi=M_PI;
+double fun(double t, double f)
+{
+    double omega;
+    omega = 2*pi*f; //czestotliwosc
+    return omega*cos(omega*t);
+}
+
+//==============================Program glowny================================
+int main()
+{
+    double omegas, fs, f;
+    FILE *wsk; //wskaznik typu FILE
+    wsk = fopen("g:\\row_wzmr.dat","w");
+    float y1,y2,dy1[2],dy2[2],t,dt,tk,g,ksi,k;
+    t=0.0; dt=0.0001; tk=2.0; k=1.0; ksi=0.1;
+    y1=0.0; y2=0.0; dy1[0]=0.0; fs=100.0;
+    omegas=2*pi*fs;
+    f=50;
+    dy1[0]=y2;
+    dy2[0]=-2*ksi*omegas*y2-omegas*omegas*y1+2*k*ksi*omegas*fun(t,f);
+    do
+    {
+        t+=dt;
+        g=fun(t,f);
+        dy1[1]=y2;
+        dy2[1]=-2*ksi*omegas*y2-omegas*omegas*y1+2*k*ksi*omegas*g;
+        y1+=(dy1[0]+dy1[1])/2*dt;
+        y2+=(dy2[0]+dy2[1])/2*dt;
+        fprintf(wsk,"\n%f %f %f",t,y1,y2);
+        dy1[0]=dy1[1];
+        dy2[0]=dy2[1];
+    }while(t<tk);
+    fclose(wsk);
+//======================================================================
+    FILE *wsk2; //wskaznik typu FILE
+    wsk2 = fopen("g:\\row_wzmr.dat","w");
+    float y1,y2,dy1[2],dy2[2],t,dt,tk,g,ksi,k;
+    t=0.0; dt=0.0001; tk=2.0; k=1.0; ksi=0.1;
+    y1=0.0; y2=0.0; dy1[0]=0.0; fs=100.0;
+    omegas=2*pi*fs;
+    f=50;
+    dy1[0]=y2;
+    dy2[0]=-2*ksi*omegas*y2-omegas*omegas*y1+2*k*ksi*omegas*fun(t,f);
+    do
+    {
+        t+=dt;
+        g=fun(t,f);
+        dy1[1]=y2;
+        dy2[1]=-2*ksi*omegas*y2-omegas*omegas*y1+2*k*ksi*omegas*g;
+        y1+=(dy1[0]+dy1[1])/2*dt;
+        y2+=(dy2[0]+dy2[1])/2*dt;
+        fprintf(wsk,"\n%f %f %f",t,y1,y2);
+        dy1[0]=dy1[1];
+        dy2[0]=dy2[1];
+    }while(t<tk);
+    fclose(wsk);
+
+
+    getch();
+    return 0;
+}
