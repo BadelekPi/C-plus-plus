@@ -1,0 +1,109 @@
+#include <iostream>
+#include <cmath>
+#include <cstdlib>
+#include <conio.h>
+#include <windows.h>
+#include <fstream>
+#include <math.h>
+#pragma hdrstop
+
+using namespace std;
+/*
+Programowanie systemów mechatronicznych
+Autor: Badełek Piotr
+Grupa: WMT18AP1S1
+Temat: Programowe sterowanie silnikiem prądu stałego w
+srodowisku C++ Builder6 (LAB2)
+Prowadzący: dr inż. Włodzimierz Borowczyk
+Program: Rozwiazanie ukladu rownan rozniczkowych opisujacych silnik pradu stalego
+Kompilator: GNU gcc version 4.0.2
+Sprawdzono na Windows 10
+*/
+double skok(double t)
+{
+ return 1.0;
+}
+//===========================Program glowny=====================================
+int main()
+{
+//=============================Kat obrotu=======================================
+  FILE *wsk;
+  wsk=fopen("g:\\kat_obrotu.dat","w"); //miejsce zapisu pliku
+  double K, ke, km, Rw, J, Ki, Kp, Kd, Tm, y1, y2, dy1[2], dy2[2];
+  double dt, t0, tk, t, g; //wektor czasu
+
+    dt=0.001;
+    t0=0.0;
+    tk=3.0;
+    t=0.0;
+    y1=0.0;
+    y2=0.0;
+    dy1[0]=y2;
+
+    ke=0.105;
+    km=0.12;
+    Rw=2.5;
+    J=0.025;
+    K=1/ke;
+    //
+    Kd=0.01;//rozniczkujacy od 0.001 do 0.01
+    Kp=4.0; //propocjonalny od 0.1 do 40
+    Ki=10.0; //calkujacy od 0.1 do 40
+
+    Tm=(J*Rw)/(km*ke);
+
+
+    dy2[0]=(K*Ki*skok(t)-(K*Kp+1)*y2-(K*Ki)*y1)/(Tm+K*Kd);
+    do
+    {
+      t+=dt;
+      g=skok(t);
+      dy1[1]=y2;
+      dy2[1]=(K*Ki*g-(K*Kp+1)*y2-(K*Ki)*y1)/(Tm+K*Kd);
+      y1+=(dy1[0]+dy1[1])/2*dt;
+      y2+=(dy2[0]+dy2[1])/2*dt;
+      fprintf(wsk,"\n%f %f %f",t,y1,y2);
+      dy1[0]=dy1[1];
+      dy2[0]=dy2[1];
+
+    }while(t<tk);
+    fclose(wsk);
+//===================================================================
+//========================Predkosc katowa============================
+  FILE *wsk2;
+  wsk2=fopen("g:\\predkosc_katowa.dat","w"); //miejsce zapisu pliku
+  //double y1, y2, dy1[2], dy2[2];
+  double y3, dy3[2];
+
+    t=0.0;
+    y1=0.0;
+    y2=0.0;
+    y3=0.0;
+    dy1[0]=0.0;
+    dy2[0]=0.0;
+    dy3[0]=0.0;
+    dy3[0]=(K*Ki*skok(t)-(1+K*Kd)*y3-(K*Kp)*y2-K*Ki*y1)/Tm;
+    dy1[1]=0.0;
+    dy2[1]=0.0;
+    dy3[1]=0.0;
+    do
+    {
+      t+=dt;
+      g=skok(t);
+      dy1[1]=y2;
+      dy2[1]=y3;
+      dy3[1]=((K*Ki*g-(1+K*Kd)*y3-(K*Kp)*y2-K*Ki*y1))/Tm;
+      y1+=(dy1[0]+dy1[1])/2*dt;
+      y2+=(dy2[0]+dy2[1])/2*dt;
+      y3+=(dy3[0]+dy3[1])/2*dt;
+      fprintf(wsk2,"\n%f %f %f %f",t,y1,y2,y3);
+      dy1[0]=dy1[1];
+      dy2[0]=dy2[1];
+      dy3[0]=dy3[1];
+
+    }while(t<tk);
+    fclose(wsk2);
+
+
+    return 0;
+}
