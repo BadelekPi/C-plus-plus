@@ -1,0 +1,136 @@
+#include <iostream>
+#include <conio.h>
+#include <math.h>
+#include <fstream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <cstdio>
+#include <string>
+#include <windows.h>
+
+using namespace std;
+//-------Funkcja zwracajaca wielomian wyjsciowy----------
+double f1(double x)
+  {
+    return x*x*x-2*x*x+3*x+1;
+  }
+//---------Analityczne calkowanie funkcji fun1-----------
+  double f2(double x)
+{
+    return (x*x*x*x)/4-(2*x*x*x)/3+(3*x*x)/2+x ;
+}
+//--------------Rozniczka funkcji fun1-------------------
+ double f3(double x)
+{
+    return (x*x*x*x)/4-(2*x*x*x)/3+(3*x*x)/2+x ;
+}
+
+//--------Odczyt danych wynikow rozniczkowania ----------
+//--------Wyswietlanie co 1000 linijki ----------
+int odczytywanie_rozniczki(int dp)
+{
+   string input = "";
+   fstream file;
+   file.open("d://rozniczka.txt",ios::in);
+
+   for (int i=0; i<=dp+1;++i)
+   {
+    getline(file,input);
+    if (i%10000 == 0)
+      cout << input << endl;
+   }
+}
+
+int odczytywanie_calki(int dp,string fc)
+{
+   string input = "";
+   fstream file;
+   file.open("fc",ios::in);
+
+   for (int i=0; i<=dp+1;++i)
+   {
+    getline(file,input);
+    if (i%10000 == 0)
+      cout << input << endl;
+   }
+}
+//---------------Funkcja glowna-------------------------
+int main()
+{
+//-----------Podawanie sciezek do zapisu plikow txt--------------------
+   string fc,fr;
+   cout << "Podaj sciezke do zapisu pliku z wynikami dla obliczen calki: ";
+   cin >> fc;
+   cout << "\nPodaj sciezke do zapisu pliku z wynikami dla obliczen rozniczki: ";
+   cin >> fc;
+//-----------Calkowanie funkcji fun1--------------------
+    //czas dyskretyzacji dt
+    //przedzial czasowy od t0 = 0.0 do tk = 2.0
+    double t0=0.0, tk=2.0, dt=0.00001, wynik_num, wynik_anal, t1=0.0, delta0, delta1;
+    FILE *wsk1;
+    wsk1=fopen("fc","w");
+    fprintf(wsk1,"t         Wyn_num        Wyn_anal      delta");
+    //double h = (tk-t0)/(double)trap; //wyznaczanie wysokosci trapezu
+    double S = 0.0, S1 = 0.0; //zmienne będa przechowywać sumę pol trapezów
+
+    double x1 = f1(t0), x2;
+    //zliczanie pol pojedynczych trapezow
+    do
+    {
+        x1 = f1(t1);
+        double xdd = f2(t1+dt)- f2(t1); //wynik dokladny
+        t1 += dt;
+        double h = dt;
+        x2 = f1(t1);
+        wynik_num = (x1+x2)*0.5*h;
+        S += wynik_num;
+        S1 += xdd;
+        delta0 = wynik_num-xdd;
+        fprintf(wsk1,"\n%f     %f    %f     %e",t1,wynik_num,xdd,delta0);
+    } while (t1<tk);
+    delta1 = S-S1;
+
+    //cout << S << " " << S1 << " " << S - S1 << endl; //podanie kolejno: wynik numeryczny, wynik analityczny, delta
+    fprintf(wsk1,"\nWyniki wyliczenia calki w przedziale od 0.0 do 2.0 z dyskretyzacja 0.01: \n%f %f  %e",S,S1,delta1);
+    fclose(wsk1);
+
+//-----------Rozniczka funkcji fun1---------------------
+  double t,y[3],ydd,ydw,delta;
+    FILE *wsk2;
+    wsk2=fopen("fr","w");
+    fprintf(wsk1,"t         Wyn_num       Wyn_anal      delta");
+    t=0.0;
+    y[0]=f1(t); //    wartosc funkcji w pierwszym punkcie
+    t=t+dt;
+    y[1]=f1(t);  //    wartosc funkcji w drugim punkcie
+    do
+     {
+      t+=dt;
+      y[2]=f1(t);   //    wartosc funkcji w trzecim punkcie
+      ydw=((y[2]-y[0])/2./dt);  //wyliczona wartosc pochodnej
+      for(int i=0;i<2;i++)
+       y[i]=y[i+1];    //przenumerowanie
+
+      ydd=f2(t);  //dokladna wartosc pochodnej
+      delta=ydd-ydw;
+      fprintf(wsk2,"\n%f    %f    %f     %e",t,ydd,ydw,delta);
+     }while(t<tk);
+     fclose(wsk2);
+
+//-----------Zadanie wyswietlenia wynikow na ekranie---------------------
+    char zadanie_rozniczki;
+    char zadanie_calki;
+    cout << "Czy wyswietlic wyniki obliczenia rozniczki funkcji wielomianu x^3-2x^2+3x+1? Napisac [t/n] \n";
+    cin >> zadanie_rozniczki;
+    if (zadanie_rozniczki=='t'||zadanie_rozniczki=='T')
+    {int dp = tk/dt;
+    odczytywanie_rozniczki(dp);}
+    cout << "\n\nCzy wyswietlic wyniki obliczenia calki funkcji wielomianu x^3-2x^2+3x+1? Napisac [t/n] \n";
+    cin >> zadanie_calki;
+    if (zadanie_calki=='t'||zadanie_calki=='T')
+    {int dp = tk/dt;
+    odczytywanie_calki(dp,fc);}
+
+    getch();
+    return 0;
+}
