@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <iostream>
+#include <math>
+#include <conio>
+#include <fstream>
+/*
+Programowanie systemów mechatronicznych
+Autor: Badełek Piotr
+Grupa: WMT18AP1S1
+Temat: Opracowanie programu realizującego modelowanie członów dynamicznych w
+srodowisku C++ Builder6 (LAB1)
+Prowadzący: dr inż. Włodzimierz Borowczyk
+Program: Modelowanie wzmacniacza rezonansowego za pomocą filtru rekurencyjnego
+Kompilator: GNU gcc version 4.0.2
+Sprawdzono na Windows 10
+*/
+using namespace std;
+//================Wzmacniacz ustawiony na czestotliwosc rezonansowa fs============
+float dt;
+float const pi=3.1415926535;
+//==============================Sygnal wejsciowy==================================
+float fun(float t,float f)
+{
+    float omega;
+    omega = 2*pi*f;
+    return sin(omega*t);
+}
+class wzmrez{
+              float omegas, fs, k, ksi, xwe, ywy;
+              float b,c,d,ee,p,a,a1,a2;
+              float x[3],y[3];
+              public:
+              wzmrez(float New_k,
+                                 float New_ksi,
+                                 float New_fs,
+                                 float New_dt);
+              float rez(float New_xwe);
+              float dajwartosc();
+              ~wzmrez() {};
+                                      };
+wzmrez::wzmrez(float New_k,
+                           float New_ksi,
+                           float New_fs,
+                           float New_dt)
+{
+    k=New_k; ksi=New_ksi; fs=New_fs; dt=New_dt;
+    omegas=2*pi*fs;
+    a = dt*k*ksi*omegas;
+    b = (omegas*omegas*dt*dt)/6;
+    c = ksi*omegas*dt;
+    d = b+c; ee=4*b; p=b-c; a1=1+d; a2=ee-2;
+    x[0]=0.0; y[0]=0;
+    x[1]=0.0; y[1]=0.0;
+    x[2]=0.0; y[2]=0.0;
+}
+float wzmrez::rez(float New_xwe)
+{
+    int j;
+    xwe=New_xwe;
+    x[2]=xwe;
+    y[2]=(a/a1)*(x[2]-x[0])-(a2/a1)*y[1]-(1+p)/a1*y[0];
+    ywy=y[2];
+            for(j=0; j<=1; j++)
+            {
+              x[j]=x[j+1];
+              y[j]=y[j+1];
+            };
+    return ywy; }
+    float wzmrez::dajwartosc()
+    {
+        return ywy;
+    }
+//==========================Program glowny=========================
+    int main()
+    {
+        float k,ksi,fs,t,xwe,ss,f,tk;
+        int i,ik;
+        ofstream wyj("g:\\rekwzmr.dat");
+        k=1; ksi=0.02; fs=100; tk=2.0;
+        f=30;
+        dt=0.0001;
+        t=0;
+        wzmrez b(k,ksi,fs,dt);
+        do
+        {
+            t+=dt;
+            xwe=fun(t,f);
+            b.rez(xwe);
+            ss=b.dajwartosc();
+            wyj<<endl<<t<<" "<<ss;
+        }while(t<tk);
+        wyj.close();
+        return 0;
+    }
+
+
+
