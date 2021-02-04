@@ -1,0 +1,116 @@
+#include<iostream>
+#include<conio.h>
+#include<math.h>
+#include<fstream>
+/*
+Programowanie systemów mechatronicznych
+Autor: Badełek Piotr
+Grupa: WMT18AP1S1
+Temat: Opracowanie programu realizującego modelowanie członów dynamicznych w
+srodowisku C++ Builder6 (LAB1)
+Prowadzący: dr inż. Włodzimierz Borowczyk
+Program: Modelowanie wzmacniacza rezonansowego za pomocą filtru nierekurencyjnego
+Kompilator: GNU gcc version 4.0.2
+Sprawdzono na Windows 10
+*/
+using namespace std;
+const double pi=M_PI;
+//============================Funkcja impulsowa=======================================
+double fun_imp(double k, double ksi, double omegas, double omega0, double delta, double t)
+{
+	double y, ro, teta;
+	teta = atan(omega0/delta);
+	ro = delta*delta+omega0*omega0;
+	y = -2*k*ksi*omegas*sqrt(ro)/omega0*exp(-delta*t)*sin(omega0*t-teta);
+	return y;
+}
+//=============================Sygnał wejsciowy=======================================
+double fun_zad(double t, double f)
+{
+	double omega;
+	omega = 2*f*pi;
+	return sin(omega*t);
+}
+
+//=============================Program glowny=========================================
+int main()
+{
+	int n,l;
+	double ksi, omegas, omega0, delta, k, t, dt, yg, T, fs, fzad, ywy, f, *yzad;
+	double tk, *ygwzm, ti;
+	FILE *wsk, *wsk1;
+	double *Ck;
+	k=1.0; yg=0; fs=100.0; f=80.0;
+	omegas = 2*fs*pi;
+	dt = 0.001;
+	ksi = 0.05; t=0.0; tk=1.0;
+	T = 1/omegas;
+	delta = ksi / T;
+	ofstream wyj("g:\\g_imp.dat");
+	ofstream wyj1("g:\\nierek_wzmr.dat");
+	omega0 = sqrt(1-ksi*ksi)/T;
+	l=0;
+	yg = fun_imp(k,ksi,omegas,omega0,delta,t);
+//=====================Wartosc odpowiedzi impulsowej=================================
+	do
+	{
+		t+=dt;
+		yg = fun_imp(k,ksi,omegas,omega0,delta,t);
+		wyj << "\n" << t << " " << yg;
+		cout << "\n" << t << " yg="<<yg<<" l =" << l;
+		l+=1;
+	}while (fabs(yg) > 0.0001);
+	wyj.close();
+	n=t/dt;
+	cout << "\n n = " << n;
+//========================Tworzenie tablic dynamicznych===============================
+	yzad=new double[n+1];
+	ygwzm=new double[n+1];
+	Ck=new double[n+1];
+//======================Wartosc Ck[i] (calkowanie metoda trapezow)====================
+	Ck[0]=1*dt/2;    Ck[n]=1*dt/2;
+	for(int i=1; i<n; i++) Ck[i]=2*dt/2;
+	t=0.0;
+	ywy=0.0;
+	for(int i=0; i<n; i++)
+	{
+		t=t+dt;
+		yzad[i] = fun_zad(t,f); //sygnal wejsciowy filtru
+		ygwzm[i] = fun_imp(k,ksi, omegas, omega0, delta, t);
+	}
+	ywy=0.0;
+	for(int i=0; i<n; i++)
+	{
+		cout << "\n Ck["<<i<<"]="<<Ck[i]<<" ygwzm[i] = "<< ygwzm[i]<<" yzad[i]="<<yzad[i];
+		ywy+=Ck[i]*ygwzm[i]*yzad[n-i];
+	}
+	cout << "\n t= "<<t<<" ywy =" <<ywy;
+	wyj1<<endl<<t<<" "<<ywy<<yzad[n];
+	for(int i=0; i<n-1; i++)
+	{
+		yzad[i]=yzad[i+1];
+	}
+	cout << "\n t ="<<t;
+//========================Sygnal wyjsciowy z filtra================================
+	do
+	{
+		t+=dt;
+		yzad[n]=fun_zad(t,f);
+		ygwzm[n]=fun_imp(k,ksi,omegas,omega0,delta,t);
+		ywy=0.0;
+		for(int i=0; i<n; i++)
+		{
+			ywy+=Ck[i]*ygwzm[i]*yzad[n-i];
+		}
+		cout << "\n ywy = "<<ywy;
+		for(int i=0; i<n-1;i++)
+		{
+			yzad[i]=yzad[i+1]; //przenumerowanie sygnalu wejsciowego
+		}
+		cout << "\n t= "<<t<<" ywy ="<<ywy;
+		wyj1<<endl<<t<<" "<<ywy;;
+	}while (t<tk);
+	wyj1.close();
+	getch();
+	return 0;
+}
