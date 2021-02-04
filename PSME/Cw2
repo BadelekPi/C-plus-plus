@@ -1,0 +1,281 @@
+#include <iostream.h>
+#include <conio.h>
+#include <cmath>
+#include <fstream.h>
+#include <conio.h>
+#pragma hdrstop
+
+using namespace std;
+//---------------------Klasa Ulamek------------------------------
+class Ulamek
+ {
+     public:
+       int licznik;
+       int mianownik;
+
+        Ulamek(){};  //konstruktor bezparametrowy
+        Ulamek(int New_licznik, int New_mianownik)  //konstruktor
+        {licznik=New_licznik; mianownik=New_mianownik;}
+        void wyprow();  //funkcja wypisujaca wynik
+        void wyprow1();  //funkcja do wypisywania ulamka w innej postaci
+	Ulamek operator*(Ulamek&);
+	friend  Ulamek operator*(Ulamek&, int);
+    friend  Ulamek operator*(int,Ulamek&);
+	Ulamek operator+(Ulamek&);
+	Ulamek operator-(Ulamek&);
+	Ulamek operator/(Ulamek&);
+ };
+ //------------------------------------------------------------
+ Ulamek Ulamek::operator*(Ulamek &u1)
+  {
+   Ulamek u2;  //tworzenie obiektu klasy Ulamek
+    u2.licznik=u1.licznik*this->licznik;
+    u2.mianownik=u1.mianownik*mianownik;
+    return u2;
+  }
+  //------Mnozenie ulamka prze liczbe int------------------------
+  Ulamek operator*(Ulamek& u1, int n)
+   {
+    Ulamek u2; //tworzenie obiektu klasy Ulamek
+    u2.licznik=u1.licznik*n;
+    u2.mianownik=u1.mianownik;
+    return u2;
+   }
+
+ //-----mnozenie liczby int przez ulamek--------------------
+
+  Ulamek operator*(int n,Ulamek& u1)
+   {
+    Ulamek u2; //tworzenie obiektu klasy Ulamek
+    u2.licznik=n*u1.licznik;
+    u2.mianownik=u1.mianownik;
+    return u2;
+   }
+  //----------------------------------------------------------
+    Ulamek Ulamek:: operator+(Ulamek& u1)
+     {
+      Ulamek u2;//tworzenie obiektu klasy Ulamek
+      int sk1, sk2,mian1,mian2,licz1,licz2;
+      mian1=mianownik; mian2=u1.mianownik;
+      licz1=licznik; licz2=u1.licznik;
+      u2.mianownik=u1.mianownik*mianownik;
+      sk1=u2.mianownik/mian1; sk2=u2.mianownik/mian2;
+      u2.licznik= licz1*sk1+licz2*sk2;
+       return u2;
+     }
+   //----------------------------------------------------------
+   Ulamek Ulamek:: operator-(Ulamek& u1)
+     {
+      Ulamek u2;//tworzenie obiektu klasy Ulamek
+      int sk1, sk2,mian1,mian2,licz1,licz2;
+      mian1=mianownik; mian2=u1.mianownik;
+      licz1=licznik; licz2=u1.licznik;
+      u2.mianownik=u1.mianownik*mianownik;
+      sk1=u2.mianownik/mian1; sk2=u2.mianownik/mian2;
+      u2.licznik= licz1*sk1-licz2*sk2;
+       return u2;
+     }
+   //----------------------------------------------------------
+   Ulamek Ulamek:: operator/(Ulamek &u1)
+    {
+      int licz,mian;
+      Ulamek u2; //tworzenie obiektu klasy Ulamek
+      licz=u1.licznik; mian=u1.mianownik;
+      u1.licznik=mian; u1.mianownik=licz;
+      u2.licznik=u1.licznik*licznik;
+      u2.mianownik=u1.mianownik*mianownik;
+      return u2;
+    }
+//-------- przeciazenie operatora << dla ulamka-----------------
+
+//-------- przeciazenie operatora << dla ulamka-----------------
+istream & operator >> (istream &wej, Ulamek &u1am)
+{
+    wej >> u1am.licznik>>u1am.mianownik;
+    return wej;
+}
+
+//-----------------------------------------------------------
+ostream & operator << (ostream &wyj, Ulamek &u1am)
+{
+    wyj << u1am.licznik << "/" << u1am.mianownik;
+    return wyj;
+}
+
+class  Matrix
+{
+    Ulamek** M; //prywatny wskaznik do wskaznika (wskaznik wskazujacy
+                    //na macierz)
+    int		row;
+    int		col;
+
+public:
+    Matrix(int, int); //konstruktor
+
+    int RowSize() { return row; }
+    int ColSize() { return col; }
+
+    Matrix operator+ (Matrix&)const;//dodawanie macierzy
+    Matrix operator- (Matrix&)const; //odejmowanie macierzy
+    friend ostream& operator<< (ostream& wy, Matrix& A); //wyswietlanie macierzy
+    friend istream& operator>> (istream& wy, Matrix& A); //wyswietlanie macierzy
+
+    void wprowadz();
+};
+
+const char formatErr[] =
+"\n ERROR: Brak pamieci dla Matrix.\n";
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                       */
+/*         class    Matrix		                 */
+/*                                                       */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+//--------------Konstruktor dla macierzy-----------------
+Matrix::Matrix(int  New_row, int  New_col)
+{
+    row = New_row;
+    col = New_col;
+    if ((M = new Ulamek* [row]) == NULL) {
+        printf(formatErr);
+        exit(1);
+    }
+    for (int i = 0; i < row; i++)
+        if ((M[i] = new Ulamek[col]) == NULL) {
+            printf(formatErr);
+            exit(1);
+        }
+}
+
+void Matrix::wprowadz()
+{
+    for (int i = 0; i < row; i++)
+        for (int j = 0; j < col; j++)
+        {
+            cout << "Podaj wartosci dla macierzy[" << i << "][" << j << "]: ";
+
+            cin >> M[i][j];
+        }
+}
+
+//-------------------operator dodawania dwoch macierzy----------------
+//do macierzy M dodajemy macierz N, w wyniku uzyskujemy macierz S
+
+Matrix  Matrix::operator+ (Matrix& N)const
+{
+    int		rw = N.row;
+    int		cl = N.col;
+
+    if (row != rw) {
+        printf("\n ERROR: Bad row matrix size in '+'.\n");
+        exit(1);
+    }
+    if (col != cl) {
+        printf("\n ERROR: Bad column matrix size in '+'.\n");
+        exit(1);
+    }
+
+    Matrix   S(rw, cl); //obiekt S klasy Matrix- macierz dwuwymiarowa
+
+    for (int i = 0; i < rw; i++)
+        for (int j = 0; j < cl; j++)
+            S.M[i][j] = M[i][j] + N.M[i][j];
+    return S;
+}
+//------------Odejmowanie dwoch macierzy----------------------
+//Od macierzy M odejmujemy macierz N. W wyniku uzyskujemy macierz S
+
+Matrix  Matrix::operator- (Matrix& N)const
+{
+    int		rw = N.row;
+    int		cl = N.col;
+
+    if (row != rw) {
+        printf("\n ERROR: Bad row matrix size in '+'.\n");
+        exit(1);
+    }
+    if (col != cl) {
+        printf("\n ERROR: Bad column matrix size in '+'.\n");
+        exit(1);
+    }
+
+    Matrix   S(rw, cl); //obiekt S klasy Matrix- macierz dwuwymiarowa
+
+    for (int i = 0; i < rw; i++)
+        for (int j = 0; j < cl; j++)
+            S.M[i][j] = M[i][j] - N.M[i][j];
+    return S;
+}
+
+
+//przeciazaony operator << dla macierzy
+ostream& operator<< (ostream& wy, Matrix& A)
+{
+    //do funkcji macierz A przekazywana przez referencje
+    int	rw = A.RowSize();
+    int	cl = A.ColSize();
+
+    for (int i = 0; i < rw; i++)
+    {
+        for (int j = 0; j < cl; j++)
+            wy << A.M[i][j] << " ";
+        wy << "\n";
+    }
+    return wy;
+}
+
+int main()
+{
+    int n, m;
+
+    string fm;
+
+    cout << "Badelek Piotr WMT18AP1S1\n";
+
+    cout << "Podaj wymiary macierzy:\n";
+    cout << "Podaj n: ";
+    cin >> n;
+    cout << "Podaj m: ";
+    cin >> m;
+
+    Matrix M1(n, m);
+    Matrix M2(n, m);
+    Matrix M3(n, m);
+    Matrix M4(n, m);
+
+    //Wczytywanie danych do macierzy
+    cout << "Podaj dane do macierzy 1\n";
+    M1.wprowadz();
+
+    cout << "Podaj dane do macierzy 2\n";
+    M2.wprowadz();
+
+    M3 = M1 + M2;
+
+    M4 = M1 - M2;
+
+    //Wyswietlanie danych
+    cout << "Macierz 1:\n" << M1 << "\n";
+    cout << "Macierz 2:\n" << M2 << "\n";
+    cout << "Macierz 3 (przeciazenie dodawania):\n" << M3 << "\n";
+    cout << "Macierz 4 (przeciazenie odejmowania):\n" << M4 << "\n";
+    //Zapis
+    cout << "\nPodaj sciezke do zapisu pliku: ";
+    cin >> fm;
+
+    //Praca z plikiem wyjsciowym
+    std::fstream plik;
+    plik.open("fm", std::ios::out);
+
+    //Czyszczenie pliku
+    plik.clear();
+
+    //Zapis
+    plik << "Macierz 1:\n" << M1 << "\n";
+    plik << "Macierz 2:\n" << M2 << "\n";
+    plik << "Macierz 3:\n" << M3 << "\n";
+    plik << "Macierz 4:\n" << M3 << "\n";
+
+    plik.close();
+
+}
